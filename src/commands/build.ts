@@ -6,6 +6,7 @@ import { run } from "../util/run";
 import { platform } from "../util/runPlatform";
 
 const command = "build";
+const describe = "Build game.rbxl with Rojo";
 
 async function handler() {
 	const projectPath = process.cwd();
@@ -15,4 +16,4 @@ async function handler() {
 	await run(rojo, ["build", ...(settings.rojoBuildArgs ?? ["--output", PLACEFILE_NAME])]);
 }
 
-export = identity<yargs.CommandModule>({ command, handler });
+export = identity<yargs.CommandModule>({ command, describe, handler });

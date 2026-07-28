@@ -8,6 +8,7 @@ import { run } from "../util/run";
 import { platform } from "../util/runPlatform";
 
 const command = "sync";
+const describe = "Build game.rbxl and generate service declarations with Lune";
 
 async function handler() {
 	const projectPath = process.cwd();
@@ -25,4 +26,4 @@ async function handler() {
 	}
 }
 
-export = identity<yargs.CommandModule>({ command, handler });
+export = identity<yargs.CommandModule>({ command, describe, handler });

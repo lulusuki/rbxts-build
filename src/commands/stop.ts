@@ -7,6 +7,7 @@ import { run } from "../util/run";
 import { runPlatform } from "../util/runPlatform";
 
 const command = "stop";
+const describe = "Force-stop Roblox Studio for game.rbxl";
 
 async function handler() {
 	const projectPath = process.cwd();
@@ -29,4 +30,4 @@ async function handler() {
 	} catch {}
 }
 
-export = identity<yargs.CommandModule>({ command, handler });
+export = identity<yargs.CommandModule>({ command, describe, handler });

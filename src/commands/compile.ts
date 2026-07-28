@@ -4,6 +4,7 @@ import { identity } from "../util/identity";
 import { run } from "../util/run";
 
 const command = "compile";
+const describe = "Compile the project with rbxtsc";
 
 async function handler() {
 	const projectPath = process.cwd();
@@ -13,4 +14,4 @@ async function handler() {
 	await run(rbxtsc, settings.rbxtscArgs ?? ["--verbose"]);
 }
 
-export = identity<yargs.CommandModule>({ command, handler });
+export = identity<yargs.CommandModule>({ command, describe, handler });

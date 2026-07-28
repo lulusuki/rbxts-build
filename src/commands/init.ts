@@ -8,6 +8,7 @@ import { getSettings } from "../util/getSettings";
 import { getCommandName } from "../util/getCommandName";
 
 const command = "init";
+const describe = "Add rbxts-build scripts to package.json";
 
 async function handler() {
 	const projectPath = process.cwd();
@@ -31,4 +32,4 @@ async function handler() {
 	await fs.writeFile(pkgJsonPath, JSON.stringify(pkgJson, undefined, 2));
 }
 
-export = identity<yargs.CommandModule>({ command, handler });
+export = identity<yargs.CommandModule>({ command, describe, handler });

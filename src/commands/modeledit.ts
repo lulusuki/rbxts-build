@@ -7,6 +7,7 @@ import { run } from "../util/run";
 import { runPlatform } from "../util/runPlatform";
 
 const command = "modeledit";
+const describe = "Edit model files in Roblox Studio";
 
 const handler = async (args: yargs.Arguments) => {
 	let tmpFilePath = "";
@@ -37,4 +38,4 @@ const handler = async (args: yargs.Arguments) => {
 
 const builder: yargs.CommandBuilder = () => yargs.command("[files..]", "");
 
-export = identity<yargs.CommandModule>({ command, builder, handler });
+export = identity<yargs.CommandModule>({ command, describe, builder, handler });

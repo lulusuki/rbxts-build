@@ -9,8 +9,20 @@ import { run } from "../util/run";
 import { runPlatform } from "../util/runPlatform";
 
 const command = "open";
+const describe = "Open game.rbxl in Roblox Studio and optionally start watch processes";
 
-async function handler() {
+interface OpenArgs {
+	watch?: boolean;
+}
+
+const builder: yargs.CommandBuilder<Record<string, never>, OpenArgs> = {
+	watch: {
+		type: "boolean",
+		description: "Start rbxtsc --watch and rojo serve after Studio opens (defaults to watchOnOpen)",
+	},
+};
+
+async function handler(args: yargs.Arguments<OpenArgs>) {
 	const projectPath = process.cwd();
 	const settings = await getSettings(projectPath);
 
@@ -23,9 +35,10 @@ async function handler() {
 		win32: () => run("start", [PLACEFILE_NAME]),
 	});
 
-	if (settings.watchOnOpen !== false) {
+	const watch = args.watch ?? settings.watchOnOpen ?? true;
+	if (watch) {
 		await run("npm", ["run", getCommandName(settings, "watch"), "--silent"]);
 	}
 }
 
-export = identity<yargs.CommandModule>({ command, handler });
+export = identity<yargs.CommandModule<Record<string, never>, OpenArgs>>({ command, describe, builder, handler });

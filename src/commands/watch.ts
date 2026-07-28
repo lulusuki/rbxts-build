@@ -5,6 +5,7 @@ import { run } from "../util/run";
 import { platform } from "../util/runPlatform";
 
 const command = "watch";
+const describe = "Run rbxtsc in watch mode and serve the project with Rojo";
 
 async function handler() {
 	const projectPath = process.cwd();
@@ -16,4 +17,4 @@ async function handler() {
 	run(rbxtsc, ["-w"].concat(settings.rbxtscArgs ?? [])).catch(console.warn);
 }
 
-export = identity<yargs.CommandModule>({ command, handler });
+export = identity<yargs.CommandModule>({ command, describe, handler });
