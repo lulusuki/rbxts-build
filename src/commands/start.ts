@@ -3,6 +3,7 @@ import { identity } from "../util/identity";
 import { run } from "../util/run";
 import { getSettings } from "../util/getSettings";
 import { getCommandName } from "../util/getCommandName";
+import { getPackageManager } from "../util/getPackageManager";
 import { isHeadless } from "../util/isHeadless";
 
 const command = "start";
@@ -24,9 +25,10 @@ async function handler(args: yargs.Arguments<StartArgs>) {
 	const settings = await getSettings(projectPath);
 	const headless = isHeadless();
 	const watch = args.watch ?? (headless ? false : undefined);
+	const pm = getPackageManager();
 
-	await run("npm", ["run", getCommandName(settings, "compile"), "--silent"]);
-	await run("npm", ["run", getCommandName(settings, "build"), "--silent"]);
+	await run(pm, ["run", getCommandName(settings, "compile"), "--silent"]);
+	await run(pm, ["run", getCommandName(settings, "build"), "--silent"]);
 
 	const openArgs = ["run", getCommandName(settings, "open"), "--silent"];
 	if (watch !== undefined) {
@@ -36,11 +38,11 @@ async function handler(args: yargs.Arguments<StartArgs>) {
 	if (headless && watch === false) {
 		const watchCommand = getCommandName(settings, "watch");
 		console.log(
-			`Headless session detected; opening Studio without starting watch. Run "npm run ${watchCommand}" to start rbxtsc --watch and rojo serve.`,
+			`Headless session detected; opening Studio without starting watch. Run "${pm} run ${watchCommand}" to start rbxtsc --watch and rojo serve.`,
 		);
 	}
 
-	await run("npm", openArgs);
+	await run(pm, openArgs);
 }
 
 export = identity<yargs.CommandModule<Record<string, never>, StartArgs>>({ command, describe, builder, handler });

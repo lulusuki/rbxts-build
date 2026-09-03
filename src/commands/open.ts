@@ -3,6 +3,7 @@ import yargs from "yargs";
 import { PLACEFILE_NAME } from "../constants";
 import { getSettings } from "../util/getSettings";
 import { getCommandName } from "../util/getCommandName";
+import { getPackageManager } from "../util/getPackageManager";
 import { getWindowsPath } from "../util/getWindowsPath";
 import { identity } from "../util/identity";
 import { run } from "../util/run";
@@ -37,7 +38,7 @@ async function handler(args: yargs.Arguments<OpenArgs>) {
 
 	const watch = args.watch ?? settings.watchOnOpen ?? true;
 	if (watch) {
-		await run("npm", ["run", getCommandName(settings, "watch"), "--silent"]);
+		await run(getPackageManager(), ["run", getCommandName(settings, "watch"), "--silent"]);
 	}
 }
 

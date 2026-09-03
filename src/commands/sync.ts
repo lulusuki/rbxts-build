@@ -2,6 +2,7 @@ import yargs from "yargs";
 import { PLACEFILE_NAME, SYNC_SCRIPT_PATH } from "../constants";
 import { getSettings } from "../util/getSettings";
 import { getCommandName } from "../util/getCommandName";
+import { getPackageManager } from "../util/getPackageManager";
 import { getWindowsPath } from "../util/getWindowsPath";
 import { identity } from "../util/identity";
 import { run } from "../util/run";
@@ -14,7 +15,7 @@ async function handler() {
 	const projectPath = process.cwd();
 	const settings = await getSettings(projectPath);
 
-	await run("npm", ["run", getCommandName(settings, "build"), "--silent"]);
+	await run(getPackageManager(), ["run", getCommandName(settings, "build"), "--silent"]);
 
 	const outPath = settings.syncLocation ?? "src/services.d.ts";
 
