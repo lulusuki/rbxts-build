@@ -39,7 +39,7 @@ async function handler(args: yargs.Arguments<OpenArgs>) {
 
 	const watch = args.watch ?? settings.watchOnOpen ?? true;
 	if (watch) {
-		await run(getPackageManager(), ["run", getCommandName(settings, "watch", args.suffix), "--silent"]);
+		await run(getPackageManager(), ["run", getCommandName(settings, "watch", args.suffix)]);
 	}
 }
 

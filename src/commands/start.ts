@@ -29,10 +29,10 @@ async function handler(args: yargs.Arguments<StartArgs>) {
 	const pm = getPackageManager();
 	const { suffix } = args;
 
-	await run(pm, ["run", getCommandName(settings, "compile", suffix), "--silent"]);
-	await run(pm, ["run", getCommandName(settings, "build", suffix), "--silent"]);
+	await run(pm, ["run", getCommandName(settings, "compile", suffix)]);
+	await run(pm, ["run", getCommandName(settings, "build", suffix)]);
 
-	const openArgs = ["run", getCommandName(settings, "open", suffix), "--silent"];
+	const openArgs = ["run", getCommandName(settings, "open", suffix)];
 	if (watch !== undefined) {
 		openArgs.push("--", watch ? "--watch" : "--no-watch");
 	}

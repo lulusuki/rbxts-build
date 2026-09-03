@@ -19,7 +19,7 @@ async function handler(args: yargs.Arguments<SyncArgs>) {
 	const projectPath = process.cwd();
 	const settings = await getSettings(projectPath);
 
-	await run(getPackageManager(), ["run", getCommandName(settings, "build", args.suffix), "--silent"]);
+	await run(getPackageManager(), ["run", getCommandName(settings, "build", args.suffix)]);
 
 	const outPath = settings.syncLocation ?? "src/services.d.ts";
 
