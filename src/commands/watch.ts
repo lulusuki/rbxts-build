@@ -9,6 +9,7 @@ const describe = "Run rbxtsc in watch mode and serve the project with Rojo";
 
 interface WatchArgs {
 	tsconfig?: string;
+	port?: number;
 }
 
 const builder: yargs.CommandBuilder<Record<string, never>, WatchArgs> = {
@@ -16,6 +17,11 @@ const builder: yargs.CommandBuilder<Record<string, never>, WatchArgs> = {
 		alias: "t",
 		type: "string",
 		description: "Path to tsconfig file passed to rbxtsc via -p (relative to --path)",
+	},
+	port: {
+		alias: "P",
+		type: "number",
+		description: "Port for rojo serve",
 	},
 };
 
@@ -28,7 +34,8 @@ async function handler(args: yargs.Arguments<WatchArgs>) {
 	const rbxtscArgs = args.tsconfig
 		? ["-w", "-p", args.tsconfig]
 		: ["-w"].concat(settings.rbxtscArgs ?? []);
-	run(rojo, ["serve"]).catch(console.warn);
+	const rojoServeArgs = ["serve", ...(args.port ? ["--port", String(args.port)] : [])];
+	run(rojo, rojoServeArgs).catch(console.warn);
 	run(rbxtsc, rbxtscArgs).catch(console.warn);
 }
 
