@@ -16,11 +16,17 @@ void yargs
 	.version(VERSION)
 	.alias("v", "version")
 
-	// global path option
+	// global options
 	.option("path", {
 		alias: "p",
 		type: "string",
 		description: "Working directory to run the command in",
+		global: true,
+	})
+	.option("suffix", {
+		alias: "s",
+		type: "string",
+		description: "Suffix appended to internal script names (e.g. 'standard' → 'compile:standard')",
 		global: true,
 	})
 	.middleware((args: { path?: string }) => {
