@@ -9,6 +9,7 @@
 	"scripts": {
 		"build": "tspc",
 		"build-watch": "tspc -w",
+		"prepare": "tspc",
 		"prepublishOnly": "npm run build",
 		"devlink": "cd devlink && npm link"
 	},

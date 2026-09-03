@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import path from "path";
 import yargs from "yargs";
 import { PACKAGE_ROOT, VERSION } from "./constants";
 import { CLIError } from "./errors/CLIError";
@@ -14,6 +15,19 @@ void yargs
 	// version
 	.version(VERSION)
 	.alias("v", "version")
+
+	// global path option
+	.option("path", {
+		alias: "p",
+		type: "string",
+		description: "Working directory to run the command in",
+		global: true,
+	})
+	.middleware((args: { path?: string }) => {
+		if (args.path) {
+			process.chdir(path.resolve(args.path));
+		}
+	})
 
 	// commands
 	.commandDir(`${PACKAGE_ROOT}/out/commands`)
