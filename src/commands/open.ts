@@ -14,6 +14,7 @@ const describe = "Open game.rbxl in Roblox Studio and optionally start watch pro
 
 interface OpenArgs {
 	watch?: boolean;
+	suffix?: string;
 }
 
 const builder: yargs.CommandBuilder<Record<string, never>, OpenArgs> = {
@@ -38,7 +39,7 @@ async function handler(args: yargs.Arguments<OpenArgs>) {
 
 	const watch = args.watch ?? settings.watchOnOpen ?? true;
 	if (watch) {
-		await run(getPackageManager(), ["run", getCommandName(settings, "watch"), "--silent"]);
+		await run(getPackageManager(), ["run", getCommandName(settings, "watch", args.suffix), "--silent"]);
 	}
 }
 

@@ -11,11 +11,15 @@ import { platform } from "../util/runPlatform";
 const command = "sync";
 const describe = "Build game.rbxl and generate service declarations with Lune";
 
-async function handler() {
+interface SyncArgs {
+	suffix?: string;
+}
+
+async function handler(args: yargs.Arguments<SyncArgs>) {
 	const projectPath = process.cwd();
 	const settings = await getSettings(projectPath);
 
-	await run(getPackageManager(), ["run", getCommandName(settings, "build"), "--silent"]);
+	await run(getPackageManager(), ["run", getCommandName(settings, "build", args.suffix), "--silent"]);
 
 	const outPath = settings.syncLocation ?? "src/services.d.ts";
 
@@ -27,4 +31,4 @@ async function handler() {
 	}
 }
 
-export = identity<yargs.CommandModule>({ command, describe, handler });
+export = identity<yargs.CommandModule<Record<string, never>, SyncArgs>>({ command, describe, handler });

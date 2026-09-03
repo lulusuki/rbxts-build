@@ -11,6 +11,7 @@ const describe = "Compile, build, and open Studio; skip watch processes when hea
 
 interface StartArgs {
 	watch?: boolean;
+	suffix?: string;
 }
 
 const builder: yargs.CommandBuilder<Record<string, never>, StartArgs> = {
@@ -26,17 +27,18 @@ async function handler(args: yargs.Arguments<StartArgs>) {
 	const headless = isHeadless();
 	const watch = args.watch ?? (headless ? false : undefined);
 	const pm = getPackageManager();
+	const { suffix } = args;
 
-	await run(pm, ["run", getCommandName(settings, "compile"), "--silent"]);
-	await run(pm, ["run", getCommandName(settings, "build"), "--silent"]);
+	await run(pm, ["run", getCommandName(settings, "compile", suffix), "--silent"]);
+	await run(pm, ["run", getCommandName(settings, "build", suffix), "--silent"]);
 
-	const openArgs = ["run", getCommandName(settings, "open"), "--silent"];
+	const openArgs = ["run", getCommandName(settings, "open", suffix), "--silent"];
 	if (watch !== undefined) {
 		openArgs.push("--", watch ? "--watch" : "--no-watch");
 	}
 
 	if (headless && watch === false) {
-		const watchCommand = getCommandName(settings, "watch");
+		const watchCommand = getCommandName(settings, "watch", suffix);
 		console.log(
 			`Headless session detected; opening Studio without starting watch. Run "${pm} run ${watchCommand}" to start rbxtsc --watch and rojo serve.`,
 		);
